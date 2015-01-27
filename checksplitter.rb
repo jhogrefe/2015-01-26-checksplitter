@@ -16,9 +16,12 @@ class Checksplitter
     @number_in_group
   end
 
-  def set_standard_tip
-    @total_meal_cost * @tip1
+  def split_check
+    split = @total_meal_cost / @number_in_group
   end
+
 end
+
+
 
 binding.pry
