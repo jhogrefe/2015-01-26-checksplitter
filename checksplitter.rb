@@ -1,7 +1,9 @@
+require "pry"
+
 class Checksplitter
-  def initialize(tmcost, numgroup, customtip)
+  def initialize(tmcost, numgroup)
     @total_meal_cost = tmcost1
-    @tip1 = tmcost * 0.15
+    @tip1 = 0.15
     @tip2 = customtip
     @number_in_group = numgroup    
   end
@@ -14,7 +16,9 @@ class Checksplitter
     @number_in_group
   end
 
-  def get_custom_tip
-    @tip2
+  def set_standard_tip
+    @total_meal_cost * @tip1
   end
 end
+
+binding.pry
