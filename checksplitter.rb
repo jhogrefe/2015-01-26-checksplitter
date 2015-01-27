@@ -1,6 +1,28 @@
 require "pry"
 
+class DinnerClub
+  attr_accessor :members, :owed
+  
+  def initialize(params = {})
+    @members = params[:members]
+    @owed = params[:owed]
+  end
+  
+  def get_amount
+    @owed
+  end
+  
+  # Add new method to push new amount member owes
+  # and add it to previous amount
+  def add_dinner(members, owed)
+    @owed.push(DinnerClub.new(member, owed))
+  end
+    
+end
+
+
 class Checksplitter
+  
   def initialize(tmcost, numgroup)
     @total_meal_cost = tmcost
     @number_in_group = numgroup
@@ -12,6 +34,22 @@ class Checksplitter
 
   def get_number_in_group()
     @number_in_group
+  end
+  
+  # Add new method to push new amount member owes
+  # and add it to previous amount
+  def add_dinner(members, owed)
+    @owed.push(DinnerClub.new(members, owed))
+  end
+  
+  # Add new method to total amount owed, 
+  # returning new total
+  def historical_amount
+    historical_amount = 0.0
+    @owed.each do |owed|
+      historical_amount += owed.get_amount
+    end
+    historical_amount
   end
 
   def split_check
@@ -29,6 +67,7 @@ class Checksplitter
     custom_tip = "#{(@total_meal_cost * answer * 0.01)}"
     puts "The custom tip is #{custom_tip}."
   end
+  
 end
 
 binding.pry
