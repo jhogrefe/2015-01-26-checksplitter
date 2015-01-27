@@ -26,7 +26,7 @@ class Checksplitter
   def give_tip_custom
     puts "Enter tip amount: "
     answer = gets.chomp.to_i
-    custom_tip = "#{@total_meal_cost} * (#{answer} * 0.01)}"
+    custom_tip = "#{(@total_meal_cost * answer * 0.01)}"
     puts "The custom tip is #{custom_tip}."
   end
 end
