@@ -1,48 +1,84 @@
 require "pry"
 
-
-
-# class Event
+# Public: #Event
+# A class to store restaurant names and who attended
+# the Dinner Club event.
 #
+# Params:
 #
-# end
+# Returns:
+#
+# State Changes:
+# None.
+
+class Event
+  
+  attr_accessor :restaurant :attendees
+  
+  def initialize
+    @restaurant = restaurant
+    @attendees = attendees
+  end
+
+end
 
 # Public: #DinnerClub
 # A class to store member names of the Dinner Club and
 # the amounts they paid
 # Params:
-# total_meal_cost - total_cost: gets total cost of meal.
-# number_in_group - num_in_group: gets number of people
-#                   in group.
 #
 # Returns:
-# split_check:       returns how much each person in the group
-#                    should pay.
-# give_tip_standard: returns how much tip is owed (15%).
-# give_tip_custom:   asks for custom amount and returns how
-#                    much tip is owed.
 #
 # State Changes:
 # None.
 
 class DinnerCLub
-  
+
   attr_accessor :members
-  
-  def initialize(members)
+
+  def initialize(members, total_paid)
     @members = members
     @total_paid = {}
   end
-  
+
+  def members()
+    @members
+  end
+
   def add_new_amount(amount)
-    amount.each do |name, 0.0|
+    amount.each do |name, amount|
       @total_paid[name] = 0.0
     end
   end
-  
+
 end
 
+# class DinnerCLub
+#
+#   attr_accessor :members
+#
+#   def initialize(members, paid)
+#     @members = members
+#     @amount_paid = {}
+#   end
+#
+#   def get_amount()
+#     @amount_paid
+#   end
+#
+#   def add_dinner(members, amount_paid)
+#     @amount_paid.push(DinnerClub.new(members, amount_paid))
+#   end
+#
+#   def historical_amount(amount_paid)
+#     amount.each do |name, amount|
+#       @amount_paid.each do |amount_paid|
+#         historical_amount += amount_paid.get_amount
+#       end
+#     end
+#   end
 
+end
 
 
 # Public: #Checksplitter
