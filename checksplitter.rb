@@ -1,6 +1,50 @@
 require "pry"
 
 
+
+# class Event
+#
+#
+# end
+
+# Public: #DinnerClub
+# A class to store member names of the Dinner Club and
+# the amounts they paid
+# Params:
+# total_meal_cost - total_cost: gets total cost of meal.
+# number_in_group - num_in_group: gets number of people
+#                   in group.
+#
+# Returns:
+# split_check:       returns how much each person in the group
+#                    should pay.
+# give_tip_standard: returns how much tip is owed (15%).
+# give_tip_custom:   asks for custom amount and returns how
+#                    much tip is owed.
+#
+# State Changes:
+# None.
+
+class DinnerCLub
+  
+  attr_accessor :members
+  
+  def initialize(members)
+    @members = members
+    @total_paid = {}
+  end
+  
+  def add_new_amount(amount)
+    amount.each do |name, 0.0|
+      @total_paid[name] = 0.0
+    end
+  end
+  
+end
+
+
+
+
 # Public: #Checksplitter
 # A class to determine how much each person in a group
 # owes based on the total bill, and how much tip to give
