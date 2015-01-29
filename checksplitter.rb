@@ -1,27 +1,5 @@
 require "pry"
 
-# Public: #Event
-# A class to store restaurant names and who attended
-# the Dinner Club event.
-#
-# Params:
-#
-# Returns:
-#
-# State Changes:
-# None.
-
-class Event
-  
-  attr_accessor :restaurant :attendees
-  
-  def initialize
-    @restaurant = restaurant
-    @attendees = attendees
-  end
-
-end
-
 # Public: #DinnerClub
 # A class to store member names of the Dinner Club and
 # the amounts they paid
@@ -32,78 +10,77 @@ end
 # State Changes:
 # None.
 
-class DinnerCLub
 
-  attr_accessor :members
+class DiningClub
 
-  def initialize(members, total_paid)
-    @members = members
-    @total_paid = {}
+  def initialize
+    @members = {}
   end
-
-  def members()
+  
+  def add_member(member)
+    @members[member] = Person.new(member) #Now calling on object
+    @members #returns members
+  end
+  
+  def show_members
+    @members.each do |member, objs|
+      puts member
+    end
     @members
   end
-
-  def add_new_amount(amount)
-    amount.each do |name, amount|
-      @total_paid[name] = 0.0
-    end
+  
+  def remove_memmber(member)
+    @members.delete(member)
+    @members
   end
-
+  
+  def have_an_outing(total, tip, *diners)
+    cs = Checksplitter.new(total, tip, diners.length)
+    amount_per_person = cs.split_check
+    
+    diners.each do |diner|
+      if @members.include?(diner)
+        @members[diner].spend(amount_per_person) 
+        #.spend is from new Person class, not this particular method.
+        #another way of writing this is:
+        #p = @members[diner]
+        #p.spend(amount_per_person)
+      else
+        add_member(diner)
+        @members[diner].spend(amount_per_person)
+      end
+    end
+    @members #you can return more than one thing in Ruby
+  end
+  
+  def get_spending_report(member)
+    @members[member]
+  end
+  
 end
-
-# class DinnerCLub
-#
-#   attr_accessor :members
-#
-#   def initialize(members, paid)
-#     @members = members
-#     @amount_paid = {}
-#   end
-#
-#   def get_amount()
-#     @amount_paid
-#   end
-#
-#   def add_dinner(members, amount_paid)
-#     @amount_paid.push(DinnerClub.new(members, amount_paid))
-#   end
-#
-#   def historical_amount(amount_paid)
-#     amount.each do |name, amount|
-#       @amount_paid.each do |amount_paid|
-#         historical_amount += amount_paid.get_amount
-#       end
-#     end
-#   end
-
-end
+  
+      
 
 
-# Public: #Checksplitter
-# A class to determine how much each person in a group
-# owes based on the total bill, and how much tip to give
-# (both standard 15% and a custom tip amount).
+
+# Public: Initialize
+# Sets initial values for Checksplitter object.
 #
 # Params:
-# total_meal_cost - total_cost: gets total cost of meal.
-# number_in_group - num_in_group: gets number of people
-#                   in group.
+# + total_meal_cost - total_cost: gets total cost of meal.
+# + number_in_group - num_in_group: gets number of people
+#                     in group.
+# + tip             - integer, percentage to tip, e.g. 15% => 15
 #
 # Returns:
-# split_check:       returns how much each person in the group
-#                    should pay.
-# give_tip_standard: returns how much tip is owed (15%).
-# give_tip_custom:   asks for custom amount and returns how
-#                    much tip is owed.
+# nil
 #
 # State Changes:
-# None.
+# Sets the three primary .
 
 class Checksplitter
 
-  attr_accessor :total_meal_cost, :number_in_group
+  attr_accessor :total_meal_cost, :number_in_group, :tip
   
   # Public: #initialize
   # Initializes the @total_meal_cost and @number_in_group
@@ -119,9 +96,10 @@ class Checksplitter
   # State Changes:
   # None.
   
-  def initialize(total_cost, num_in_group)
-    @total_meal_cost = total_cost
-    @number_in_group = num_in_group
+  def initialize(total_meal_cost, number_in_group, tip)
+    @total_meal_cost = total_meal_cost
+    @number_in_group = number_in_group
+    @tip = tip * 0.01
   end
   
   # Public: #split_check
@@ -140,7 +118,8 @@ class Checksplitter
   # None.
   
   def split_check
-    @total_meal_cost / @number_in_group
+    temp_total = (@total_meal_cost * (1 + @tip)) / @number_in_group
+    temp_total.ceil.to_i
   end
   
   # Public: #give_tip_standard
@@ -159,7 +138,8 @@ class Checksplitter
   # None.  
   
   def give_tip_standard
-    @total_meal_cost * 0.15
+    tip_standard = @total_meal_cost * 0.15
+    tip_standard
   end
 
   # Public: #give_tip_custom
@@ -180,10 +160,16 @@ class Checksplitter
   # State Changes:
   # None.  
   
+  ## OLD CRAPPY METHOD ##
+  # def give_tip_custom
+  #   puts "Enter tip amount: "
+  #   answer = gets.chomp.to_i
+  #   @total_meal_cost * answer * 0.01
+  # end
+
   def give_tip_custom
-    puts "Enter tip amount: "
-    answer = gets.chomp.to_i
-    @total_meal_cost * answer * 0.01
+    tip_custom = @total_meal_cost * @tip
+    tip_custom
   end
 
 end
